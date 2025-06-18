@@ -18,8 +18,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-               // return ResponseEntity.ok().body(userService.getAllUsers());
+        //return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+               return ResponseEntity.ok(userService.getAllUsers());
 
 
     }
@@ -32,24 +32,30 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest){
         userService.saveUser(userRequest);
-        return ResponseEntity.ok("User Added successfully");
+        return ResponseEntity.status(201).body("User added successfully");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody UserRequest updatedUserRequest){
 Boolean updated=userService.updateUser(id,updatedUserRequest);
-if (updated){
-return ResponseEntity.ok("User Updated successfully");
-}
-return ResponseEntity.notFound().build();
+//if (updated){
+//return ResponseEntity.ok("User Updated successfully");
+//}
+//return ResponseEntity.notFound().build();
+       return updated
+                ? ResponseEntity.ok("User updated successfully")
+                : ResponseEntity.notFound().build();
     }
 
 @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
        Boolean deleted= userService.deleteUser(id);
-       if (deleted){
-           return ResponseEntity.ok("User Deleted Successfully");
-       }
-       return ResponseEntity.notFound().build();
+//       if (deleted){
+//           return ResponseEntity.ok("User Deleted Successfully");
+//       }
+//       return ResponseEntity.notFound().build();
+    return deleted
+            ? ResponseEntity.ok("User deleted successfully")
+            : ResponseEntity.notFound().build();
     }
 }

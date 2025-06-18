@@ -1,8 +1,8 @@
 package com.app.ecom.model;
-
 import com.app.ecom.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "user_table")
@@ -22,6 +23,9 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
     private UserRole role=UserRole.CUSTOMER;
 
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
